@@ -7,5 +7,6 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - TZ=Asia/Tokyo
+    # mysqlの履歴を残す
     volumes:
       - ./data:/var/lib/mysql
