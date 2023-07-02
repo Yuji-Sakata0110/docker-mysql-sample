@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - $(WEB_PORTS)
+      - ${DOCKER_WEB_PORTS}
     networks:
       - app-net
     depends_on:
@@ -14,12 +14,12 @@ services:
     image: mysql:8.0
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: $(MYSQL_ROOT_PASSWORD)
-      MYSQL_DATABASE: $(MYSQL_DATABASE)
+      MYSQL_ROOT_PASSWORD: ${PASSWORD}
+      MYSQL_DATABASE: ${DATABASE}
     ports:
-      - $(PORTS)
+      - ${DOCKER_DB_PORTS}
     expose:
-      - $(EXPOSE)
+      - ${EXPOSE}
     # mysqlの履歴を残す
     volumes:
       - ./data:/var/lib/mysql
