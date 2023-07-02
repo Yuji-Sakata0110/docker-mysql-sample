@@ -1,12 +1,31 @@
-version: "3"
-
+version: '3'
 services:
-  mysql:
-    platform: linux/arm64
-    image: mysql:latest
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - $(WEB_PORTS)
+    networks:
+      - app-net
+    depends_on:
+      - db
+  db:
+    image: mysql:8.0
+    restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - TZ=Asia/Tokyo
+      MYSQL_ROOT_PASSWORD: $(MYSQL_ROOT_PASSWORD)
+      MYSQL_DATABASE: $(MYSQL_DATABASE)
+    ports:
+      - $(PORTS)
+    expose:
+      - $(EXPOSE)
     # mysqlの履歴を残す
     volumes:
       - ./data:/var/lib/mysql
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge

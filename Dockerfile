@@ -1,16 +1,11 @@
 FROM python:3.9
-FROM --platform=arm64 mysql:latest
 
-ENV MYSQL_ROOT_PASSWORD=root
+WORKDIR /app
 
-# 必要なパッケージのインストール
-RUN apt-get update && apt-get install -y mysql-client
+COPY requirements.txt .
 
-# 必要なPythonパッケージのインストール
-RUN pip install Flask mysql-connector-python
+RUN pip install -r requirements.txt
 
-# アプリケーションファイルの追加
-COPY app.py /app/app.py
+COPY . .
 
-# Flaskアプリケーションの起動コマンド
-CMD ["python", "-m", "/app/flask", "run", "--host=0.0.0.0", "--port=5000", "--reload"]
+CMD ["python", "app.py"]

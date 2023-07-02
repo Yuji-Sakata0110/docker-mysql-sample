@@ -6,23 +6,21 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    # MySQLへの接続とクエリの実行
+    # # MySQLへの接続とクエリの実行
     connection = mysql.connector.connect(
-        host="mysql",  # Dockerコンテナ名を指定
+        host="docker-mysql-db-1",
         user="root",
         password="root",
         database="sample",
+        port=3306,
     )
+    connection
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM sample_tb")
     results = cursor.fetchall()
     connection.close()
 
-    # 結果の表示
-    output = ""
-    for row in results:
-        output += f"{row[0]}: {row[1]}\n"
-    return output
+    return results
 
 
 if __name__ == "__main__":
